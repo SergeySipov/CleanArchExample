@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{6891EE47-C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastruct", "Infrastruct", "{18E37BDD-6E31-46B8-9DA0-EBC656FE44F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Peristance", "Peristance\Peristance.csproj", "{0C468AF5-3D1E-4659-B736-13CA39E0C7F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence", "Peristance\Persistence.csproj", "{0C468AF5-3D1E-4659-B736-13CA39E0C7F7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{F8F10A8E-8B9B-48CC-9C0B-190D477F96A8}"
 EndProject

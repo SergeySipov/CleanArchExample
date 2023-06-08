@@ -12,16 +12,24 @@
     <PackageReference Include="FluentValidation" Version="11.5.2" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
     <PackageReference Include="MediatR" Version="12.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
+    <PackageReference Include="System.Linq.Async" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Common\Exceptions\" />
-    <Folder Include="Common\Mappings\" />
-    <Folder Include="DTOs\" />
-    <Folder Include="Features\" />
-    <Folder Include="Gateways\" />
-    <Folder Include="Services\" />
+    <Folder Include="Features\Dispatcher\Commands\" />
+    <Folder Include="Features\Dispatcher\Queries\" />
+    <Folder Include="Features\Faculity\Commands\" />
+    <Folder Include="Features\Faculity\Queries\" />
+    <Folder Include="Features\TechnicalProvision\Commands\" />
+    <Folder Include="Features\TechnicalProvision\Queries\" />
+    <Folder Include="Interfaces\DbContext\" />
+    <Folder Include="Interfaces\UnitOfWork\" />
+    <Folder Include="Interfaces\Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
 </Project>
