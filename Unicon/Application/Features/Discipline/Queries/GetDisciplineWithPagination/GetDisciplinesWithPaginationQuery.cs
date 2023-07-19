@@ -32,10 +32,12 @@ internal class GetDisciplinesWithPaginationQueryHandler : IRequestHandler<GetDis
         var disciplines = await disciplinesAsyncEnumerable.ToListAsync(cancellationToken: cancellationToken);
         var disciplineBriefDtos = _mapper.Map<List<DisciplineBriefDto>>(disciplines);
 
-        var totalItemsCount = await _disciplineRepository.CountAsync();
+        var totalItemsCount = await _disciplineRepository.GetTotalNumberOfEntitiesAsync(cancellationToken);
 
-        var paginatedModel = new PaginatedList<DisciplineBriefDto>(disciplineBriefDtos, totalItemsCount,
-            request.PageNumber, request.PageSize);
+        var paginatedModel = new PaginatedList<DisciplineBriefDto>(disciplineBriefDtos, 
+            totalItemsCount,
+            request.PageNumber, 
+            request.PageSize);
 
         return paginatedModel;
     }

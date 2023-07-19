@@ -11,10 +11,12 @@ namespace Persistence;
 
 public static class ConfigureServices
 {
-    public static void AddPersistentServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddPersistentServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext(configuration);
         services.AddRepositories();
+
+        return services;
     }
 
     private static void AddDbContext(this IServiceCollection services, IConfiguration configuration)

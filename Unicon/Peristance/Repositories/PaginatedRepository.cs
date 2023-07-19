@@ -8,19 +8,19 @@ namespace Persistence.Repositories;
 
 public class PaginatedRepository<T> : IPaginatedRepository<T> where T : BaseEntity
 {
-    private readonly UniconDbContext _uniconDbContext;
+    private readonly UniconDbContext _dbContext;
     private readonly IMapper _mapper;
 
     public PaginatedRepository(UniconDbContext uniconDbContext, 
         IMapper mapper)
     {
-        _uniconDbContext = uniconDbContext;
+        _dbContext = uniconDbContext;
         _mapper = mapper;
     }
 
     public IAsyncEnumerable<TDataModel> GetPaginatedChunkAsync<TDataModel>(int pageNumber, int pageSize)
     {
-        var items = _uniconDbContext.Set<T>()
+        var items = _dbContext.Set<T>()
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize);
 
@@ -30,9 +30,9 @@ public class PaginatedRepository<T> : IPaginatedRepository<T> where T : BaseEnti
         return mappedEnumerable;
     }
 
-    public Task<int> CountAsync()
+    public Task<int> GetTotalNumberOfEntitiesAsync(CancellationToken cancellationToken)
     {
-        var countEntitiesTask = _uniconDbContext.Set<T>().CountAsync();
+        var countEntitiesTask = _dbContext.Set<T>().CountAsync(cancellationToken: cancellationToken);
         return countEntitiesTask;
     }
 }

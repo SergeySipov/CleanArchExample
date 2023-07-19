@@ -7,9 +7,11 @@ public class GetDisciplinesWithPaginationQueryValidator : AbstractValidator<GetD
     public GetDisciplinesWithPaginationQueryValidator()
     {
         RuleFor(x => x.PageNumber)
-            .GreaterThanOrEqualTo(1);
+            .GreaterThanOrEqualTo(1)
+            .LessThanOrEqualTo(int.MaxValue);
 
         RuleFor(x => x.PageSize)
-            .GreaterThanOrEqualTo(1);
+            .GreaterThanOrEqualTo(1)
+            .LessThanOrEqualTo(int.MaxValue);
     }
 }

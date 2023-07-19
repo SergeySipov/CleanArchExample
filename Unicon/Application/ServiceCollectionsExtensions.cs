@@ -6,11 +6,13 @@ namespace Application;
 
 public static class ServiceCollectionsExtensions
 {
-    public static void AddApplicationLayer(this IServiceCollection services)
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddAutoMapper();
         services.AddMediator();
         services.AddValidators();
+
+        return services;
     }
 
     private static void AddAutoMapper(this IServiceCollection services)

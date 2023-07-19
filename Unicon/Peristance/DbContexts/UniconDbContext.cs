@@ -1,7 +1,7 @@
 ﻿using Application.Interfaces.DbContext;
 using Domain.Common;
-using Domain.Common.Interfaces;
 using Domain.Entities;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -9,12 +9,12 @@ namespace Persistence.DbContexts;
 
 public class UniconDbContext : DbContext, IUniconDbContext
 {
-    private readonly IDomainEventDispatcher _dispatcher;
+    private readonly IMediator _mediator;
 
-    public UniconDbContext(DbContextOptions options,
-        IDomainEventDispatcher dispatcher) : base(options)
+    public UniconDbContext(DbContextOptions options, 
+        IMediator mediator) : base(options)
     {
-        _dispatcher = dispatcher;
+        _mediator = mediator;
     }
 
     public DbSet<Discipline> Disciplines { get; set; }
@@ -25,22 +25,27 @@ public class UniconDbContext : DbContext, IUniconDbContext
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 
-    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
     {
-        int result = await base.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+        await DispatchDomainEventsAsync(_mediator);
 
-        if (_dispatcher == null)
-        {
-            return result;
-        }
+        return await base.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+    }
 
-        var entitiesWithEvents = ChangeTracker.Entries<BaseEntity>()
-            .Select(e => e.Entity)
-            .Where(e => e.DomainEvents.Any())
-            .ToArray();
+    private async Task DispatchDomainEventsAsync(IMediator mediator)
+    {
+        var entities = ChangeTracker
+            .Entries<BaseEntity>()
+            .Where(e => e.Entity.DomainEvents.Any())
+            .Select(e => e.Entity);
 
-        await _dispatcher.DispatchAndClearEvents(entitiesWithEvents);
+        var domainEvents = entities
+            .SelectMany(e => e.DomainEvents)
+            .ToList();
 
-        return result;
+        entities.ToList().ForEach(e => e.ClearDomainEvents());
+
+        foreach (var domainEvent in domainEvents)
+            await mediator.Publish(domainEvent);
     }
 }

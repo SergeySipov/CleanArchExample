@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <Folder Include="Common\Exceptions\" />
+    <Folder Include="Common\Models\DataTransferObjects\" />
     <Folder Include="Features\Dispatcher\Commands\" />
     <Folder Include="Features\Dispatcher\Queries\" />
     <Folder Include="Features\Faculity\Commands\" />

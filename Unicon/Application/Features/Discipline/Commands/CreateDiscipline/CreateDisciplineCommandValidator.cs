@@ -15,6 +15,7 @@ public class CreateDisciplineCommandValidator : AbstractValidator<CreateDiscipli
             .MaximumLength(200);
 
         RuleFor(c => c.NumberOfHours)
-            .GreaterThan(0);
+            .GreaterThan(0)
+            .LessThanOrEqualTo(int.MaxValue);
     }
 }
